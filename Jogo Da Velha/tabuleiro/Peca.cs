@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using tabuleiro;
@@ -13,11 +14,27 @@ namespace Jogo_Da_Velha.tabuleiro
         public Tipo Tipo { get; set; }
         public Tabuleiro tab { get; set; }
 
-        public Peca(Tipo tipo, Tabuleiro tab)
+        public Peca()
         {
-            Pos = null;
+        }
+
+        public Peca(Posicao pos,Tipo tipo, Tabuleiro tab)
+        {
+            Pos = pos;
             Tipo = tipo;
             this.tab = tab;
+        }
+
+        public override string ToString()
+        {
+            if (Tipo==Tipo.X)
+            {
+                return "X";
+            }
+            else
+            {
+                return "O";
+            }
         }
     }
 }
