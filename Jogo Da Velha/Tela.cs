@@ -12,12 +12,12 @@ namespace Jogo_Da_Velha
     {
         public static void ImprimirTela(Tabuleiro tab)
         {
-            for (int i = 0; i < tab.Linhas ; i++)
+            for (int i = 0; i < tab.Linhas; i++)
             {
                 Console.Write($"{3 - i} ");
                 for (int j = 0; j < tab.Colunas; j++)
                 {
-                    if (tab.Pecas[i,j] ==null)
+                    if (tab.Pecas[i, j] == null)
                     {
                         Console.Write("[-] ");
                     }
@@ -45,7 +45,19 @@ namespace Jogo_Da_Velha
             string s = Console.ReadLine();
             char coluna = s[0];
             int linha = int.Parse(s[1] + "");
-            return new PosicaoVelha(linha,coluna);
+            return new PosicaoVelha(linha, coluna);
+        }
+
+        public static void fimDaPartida(Partida partida)
+        {
+            if (partida.Vencedor == false)
+            {
+                Console.WriteLine("Empate. Deu velha!");
+            }
+            else
+            {
+                imprimirVencedor(partida);
+            }
         }
 
         public static void imprimirVencedor(Partida partida)

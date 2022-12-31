@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using tabuleiro;
@@ -15,6 +16,7 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
         public int Turno;
         public Tipo JogadorAtual { get; set; }
         public bool Terminada { get; private set; }
+        public bool Vencedor { get; private set; }
 
         public Partida()
         {
@@ -26,6 +28,7 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
             Turno = 1;
             JogadorAtual = jogadorAtual;
             Terminada = false;
+            Vencedor = false;
         }
 
         public void colocarPeca(Posicao destino)
@@ -41,10 +44,13 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
                 Peca p = new Peca(destino, Tipo.O, Tab);
                 Tab.Pecas[destino.Linha, destino.Coluna] = p;
             }
-            Turno++;
             verificarVitoria();
             if (!Terminada)
+            {
                 mudaJogador();
+                Turno++;
+            }
+
         }
 
         public bool verificarPeca(Posicao destino)
@@ -70,61 +76,49 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
 
         public void verificarVitoria()
         {
-            if (Tab.Pecas[0, 0] != null && Tab.Pecas[0, 1] != null && Tab.Pecas[0, 2] != null)
+            if (Tab.Pecas[0, 0] != null && Tab.Pecas[0, 1] != null && Tab.Pecas[0, 2] != null && Tab.Pecas[0, 0].Tipo == Tab.Pecas[0, 1].Tipo && Tab.Pecas[0, 2].Tipo == Tab.Pecas[0, 1].Tipo)
             {
-                if (Tab.Pecas[0, 0].Tipo == Tab.Pecas[0, 1].Tipo && Tab.Pecas[0, 2].Tipo == Tab.Pecas[0, 1].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[1, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[1, 2] != null)
+            else if (Tab.Pecas[1, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[1, 2] != null && Tab.Pecas[1, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[1, 2].Tipo == Tab.Pecas[1, 0].Tipo)
             {
-                if (Tab.Pecas[1, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[1, 2].Tipo == Tab.Pecas[0, 1].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[2, 0] != null && Tab.Pecas[2, 1] != null && Tab.Pecas[2, 2] != null)
+            else if (Tab.Pecas[2, 0] != null && Tab.Pecas[2, 1] != null && Tab.Pecas[2, 2] != null && Tab.Pecas[2, 0].Tipo == Tab.Pecas[2, 1].Tipo && Tab.Pecas[2, 2].Tipo == Tab.Pecas[2, 0].Tipo)
             {
-                if (Tab.Pecas[2, 0].Tipo == Tab.Pecas[2, 1].Tipo && Tab.Pecas[2, 2].Tipo == Tab.Pecas[2,0].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[0, 0] != null && Tab.Pecas[1, 0] != null && Tab.Pecas[2, 0] != null)
+            else if (Tab.Pecas[0, 0] != null && Tab.Pecas[1, 0] != null && Tab.Pecas[2, 0] != null && Tab.Pecas[0, 0].Tipo == Tab.Pecas[1, 0].Tipo && Tab.Pecas[2, 0].Tipo == Tab.Pecas[0, 0].Tipo)
             {
-                if (Tab.Pecas[0, 0].Tipo == Tab.Pecas[1, 0].Tipo && Tab.Pecas[0, 2].Tipo == Tab.Pecas[2, 0].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[0, 1] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[2, 1] != null)
+            else if (Tab.Pecas[0, 1] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[2, 1] != null && Tab.Pecas[0, 1].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[2, 1].Tipo == Tab.Pecas[0, 1].Tipo)
             {
-                if (Tab.Pecas[0, 1].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[2, 1].Tipo == Tab.Pecas[0, 1].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[0, 2] != null && Tab.Pecas[1, 2] != null && Tab.Pecas[2, 2] != null)
+            else if (Tab.Pecas[0, 2] != null && Tab.Pecas[1, 2] != null && Tab.Pecas[2, 2] != null && Tab.Pecas[0, 2].Tipo == Tab.Pecas[1, 2].Tipo && Tab.Pecas[2, 2].Tipo == Tab.Pecas[0, 2].Tipo)
             {
-                if (Tab.Pecas[0, 0].Tipo == Tab.Pecas[0, 1].Tipo && Tab.Pecas[0, 2].Tipo == Tab.Pecas[0, 0].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[0, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[2, 2] != null)
+            else if (Tab.Pecas[0, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[2, 2] != null && Tab.Pecas[0, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[2, 2].Tipo == Tab.Pecas[0, 0].Tipo)
             {
-                if (Tab.Pecas[0, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[2, 2].Tipo == Tab.Pecas[0, 0].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
             }
-            else if (Tab.Pecas[2, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[0, 2] != null)
+            else if (Tab.Pecas[2, 0] != null && Tab.Pecas[1, 1] != null && Tab.Pecas[0, 2] != null && Tab.Pecas[2, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[1, 1].Tipo == Tab.Pecas[0, 2].Tipo)
             {
-                if (Tab.Pecas[2, 0].Tipo == Tab.Pecas[1, 1].Tipo && Tab.Pecas[1, 1].Tipo == Tab.Pecas[0, 2].Tipo)
-                {
                     Terminada = true;
-                }
+                Vencedor = true;
+            }
+            else if(Turno==9 && Vencedor == false)
+            {
+                Terminada = true;
             }
         }
     }

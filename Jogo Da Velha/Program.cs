@@ -32,7 +32,8 @@ namespace Jogo_Da_Velha
                     Console.ReadLine();
                 }
             }
-            Tela.imprimirVencedor(partida);
+            Console.Clear();
+            Tela.fimDaPartida(partida);
             Console.ReadLine();
         }
     }
