@@ -40,9 +40,26 @@ namespace Jogo_Da_Velha
             Console.Write("Onde deseja colocar? ");
         }
 
+        public static void VerificarPosicao(string entrada)
+        {
+            if (entrada.Length != 2)
+            {
+                throw new VelhaException("A coordenada deve conter uma letra(linha) e uma coluna!");
+            }
+            if (entrada[0] != 'a' && entrada[0] != 'b' && entrada[0] != 'c')
+            {
+                throw new VelhaException("O primeiro caractere da coordenada deve ser uma das letras('a', 'b' ou 'c')!");
+            }
+            if (entrada[1] != '1' && entrada[1] != '2' && entrada[1] != '3')
+            {
+                throw new VelhaException("O segundo caractere da coordenada deve ser um número de 1 a 3");
+            }
+        }
+
         public static PosicaoVelha posição_Velha()
         {
             string s = Console.ReadLine();
+            VerificarPosicao(s);
             char coluna = s[0];
             int linha = int.Parse(s[1] + "");
             return new PosicaoVelha(linha, coluna);
@@ -52,6 +69,7 @@ namespace Jogo_Da_Velha
         {
             if (partida.Vencedor == false)
             {
+                ImprimirTela(partida.Tab);
                 Console.WriteLine("Empate. Deu velha!");
             }
             else

@@ -31,6 +31,17 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
             Vencedor = false;
         }
 
+        public void executarMovimento(Posicao destino)
+        {
+            colocarPeca(destino);
+            verificarVitoria();
+            if (!Terminada)
+            {
+                mudaJogador();
+                Turno++;
+            }
+        }
+
         public void colocarPeca(Posicao destino)
         {
             verificarPeca(destino);
@@ -44,13 +55,6 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
                 Peca p = new Peca(destino, Tipo.O, Tab);
                 Tab.Pecas[destino.Linha, destino.Coluna] = p;
             }
-            verificarVitoria();
-            if (!Terminada)
-            {
-                mudaJogador();
-                Turno++;
-            }
-
         }
 
         public bool verificarPeca(Posicao destino)
@@ -71,6 +75,14 @@ namespace Jogo_Da_Velha.Jogo_da_Velha
             else
             {
                 JogadorAtual = Tipo.X;
+            }
+        }
+
+        public void Reiniciar(string resposta)
+        {
+            if (resposta=="1")
+            {
+                Terminada = false;
             }
         }
 
